@@ -32,7 +32,7 @@ def show_menu(context, menu_name, menu_type=None):
     try:
         menu = Menu.objects.get(name=menu_name)
     except Menu.DoesNotExist as e:
-        if settings.TEMPLATE_DEBUG:
+        if settings.DEBUG:
             raise e
         else:
             return context
