@@ -1,5 +1,5 @@
 =================
-Django Tree Menus
+Django Tree Menus - Updated - Fetch a menu from a database in only two queries
 =================
 
 .. image:: https://travis-ci.org/jphalip/django-treemenus.png
