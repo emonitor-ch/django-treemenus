@@ -96,7 +96,8 @@ Template to specify how to display a menu.
 
 * ``menu``
     Pointer to the menu to display. You can access its root item with
-    ``menu.root_item``.
+    ``menu``.
+    menu =[{value: MenuItem, children:[{value: MenuItem, children: []}]}, ...]
 
 * ``menu_type`` (optional)
     This variable will only be present if it has been specified when
@@ -109,14 +110,14 @@ Template to specify how to display a menu.
 
     {% ifequal menu_type "unordered-list" %}
         <ul>
-            {% for menu_item in menu.root_item.children %}
+            {% for menu_item in menu %}
                 {% show_menu_item menu_item %}
             {% endfor %}
         </ul>
     {% endifequal %}
     {% ifequal menu_type "ordered-list" %}
         <ol>
-            {% for menu_item in menu.root_item.children %}
+            {% for menu_item in menu %}
                 {% show_menu_item menu_item %}
             {% endfor %}
         </ol>
@@ -133,6 +134,7 @@ Template to specify how to display a menu item.
 * ``menu_item``
     Pointer to the menu_item to display. You can directly access all
     its methods and variables.
+    menu_item ={value: MenuItem, children:[{value: MenuItem, children: []}]}
 
 * ``menu_type`` (optional)
     This variable will only be accessible if it has been specified when
@@ -142,7 +144,7 @@ Template to specify how to display a menu item.
 **Example for this template**::
 
     {% load tree_menu_tags %}
-    <li><a href="{{ menu_item.url }}">{{ menu_item.caption }}</a>
+    <li><a href="{{ menu_item.value.url }}">{{ menu_item.value.caption }}</a>
         {% if menu_item.children %}
         <ul>
             {% for child_item in menu_item.children %}
@@ -208,7 +210,7 @@ would be reversed to the corresponding URL (as defined in your URLConf).
 
 **Example of use**::
 
-    <li><a href="{% reverse_named_url menu_item.named_url %}">{{ menu_item.caption }}</a></li>
+    <li><a href="{% reverse_named_url menu_item.value.named_url %}">{{ menu_item.value.caption }}</a></li>
 
 Attributes and methods
 ======================
@@ -234,7 +236,7 @@ Menu item
 
     **Example of use**::
 
-        <li><a href="{{ menu_item.url }}">{{ menu_item.caption }}</a></li>
+        <li><a href="{{ menu_item.value.url }}">{{ menu_item.value.caption }}</a></li>
 
 * ``parent``
     Returns the menu item's parent (that is, another menu item).
@@ -246,7 +248,7 @@ Menu item
 
     **Example of use**::
 
-        <li><a class="menuitem-{{ menu_item.rank }}" href="{{ menu_item.url }}">{{ menu_item.caption }}</a></li>
+        <li><a class="menuitem-{{ menu_item.value.rank }}" href="{{ menu_item.value.url }}">{{ menu_item.value.caption }}</a></li>
 
 * ``level``
     Returns the item's level in the hierarchy. This is automatically calculated by
@@ -255,10 +257,10 @@ Menu item
 
     **Example of use**::
 
-        {% ifequal menu_item.level 1 %}
-            <li><a class="top-item" href="{{ menu_item.url }}">{{ menu_item.caption }}</a></li>
+        {% ifequal menu_item.value.level 1 %}
+            <li><a class="top-item" href="{{ menu_item.value.url }}">{{ menu_item.value.caption }}</a></li>
         {% else %}
-            <li><a href="{{ menu_item.url }}">{{ menu_item.caption }}</a></li>
+            <li><a href="{{ menu_item.value.url }}">{{ menu_item.value.caption }}</a></li>
         {% endifequal %}
 
 * ``caption``
@@ -269,7 +271,7 @@ Menu item
 
     **Example of use**::
 
-        <li><a href="{% reverse_named_url menu_item.named_url %}">{{ menu_item.caption }}</a></li>
+        <li><a href="{% reverse_named_url menu_item.value.named_url %}">{{ menu_item.value.caption }}</a></li>
 
 * ``has_children``
     Returns True if the item has some children, False otherwise.
