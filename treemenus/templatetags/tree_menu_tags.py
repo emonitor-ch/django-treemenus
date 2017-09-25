@@ -1,4 +1,6 @@
 import sys
+import collections
+import copy
 
 import django
 from django import template
@@ -30,14 +32,49 @@ def get_treemenus_static_prefix():
 
 def show_menu(context, menu_name, menu_type=None):
     try:
-        menu = Menu.objects.get(name=menu_name)
+        menu_object = Menu.objects.get(name=menu_name)
+        # Fetch menu in single query
+        menu_items = MenuItem.objects.filter(menu_id=menu_object.id)\
+            .order_by('-level', 'parent_id', 'rank')\
+            .select_related('extension')
+
+        # Flag which determines that first level has been processed
+        previous_level = -1
+        current_level = -1
+        menu = collections.defaultdict(dict)
+        menu_temp = collections.defaultdict(dict)
+
+        # The whole Menu is created as dictionary in this loop
+        for menu_item in menu_items:
+            if menu_item.level != 0:
+                if current_level != -1 and current_level != menu_item.level and menu_item.level != '0':
+                    previous_level = current_level
+                    menu_temp = copy.deepcopy(menu)
+                    menu = collections.defaultdict(dict)
+                current_level = menu_item.level
+                if previous_level == -1:
+                    if 'children' not in menu[menu_item.parent_id].keys():
+                        menu[menu_item.parent_id]['children'] = []
+                    child = {"value": menu_item, 'children':[]}
+                    menu[menu_item.parent_id]['children'].append(child)
+                else:
+                    index = menu_item.parent_id
+                    if menu_item.level == 1:
+                        index = 0
+                    menu_temp[menu_item.id]['value'] = menu_item
+                    if 'children' not in menu_temp[menu_item.id].keys():
+                        menu_temp[menu_item.id]['children'] = []
+                    if 'children' not in menu[index].keys():
+                        menu[index]['children'] = []
+                    menu[index]['children'].append(copy.deepcopy(menu_temp[menu_item.id]))
+
     except Menu.DoesNotExist as e:
         if settings.DEBUG:
             raise e
         else:
-            return context
-    context['menu'] = menu
-    context['menu_name'] = menu_name
+            return []
+
+    context['menu'] = menu[0]['children']
     if menu_type:
         context['menu_type'] = menu_type
     return context
