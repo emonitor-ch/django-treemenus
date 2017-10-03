@@ -59,8 +59,8 @@ def show_menu(context, menu_name, menu_type=None):
                     menu[menu_item.parent_id]['children'].append(child)
                 else:
                     index = menu_item.parent_id
-                    if menu_item.level == 1:
-                        index = 0
+                    # if menu_item.level == 1:
+                    #    index = 0
                     menu_temp[menu_item.id]['value'] = menu_item
                     if 'children' not in menu_temp[menu_item.id].keys():
                         menu_temp[menu_item.id]['children'] = []
@@ -74,7 +74,8 @@ def show_menu(context, menu_name, menu_type=None):
         else:
             return []
 
-    context['menu'] = menu[0]['children']
+    # context['menu'] = menu[0]['children']
+    context['menu'] = menu[menu_object.root_item_id]['children']
     if menu_type:
         context['menu_type'] = menu_type
     return context
