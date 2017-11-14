@@ -38,8 +38,8 @@ def show_menu(context, menu_name, menu_type=None):
             .order_by('-level', 'parent_id', 'rank')\
             .select_related('extension')
 
-        # Flag which determines that first level has been processed
-        previous_level = -1
+        # Flag which determines that last level has been processed
+        last_level_processed = False
         current_level = -1
         menu = collections.defaultdict(dict)
         menu_temp = collections.defaultdict(dict)
@@ -48,19 +48,17 @@ def show_menu(context, menu_name, menu_type=None):
         for menu_item in menu_items:
             if menu_item.level != 0:
                 if current_level != -1 and current_level != menu_item.level and menu_item.level != '0':
-                    previous_level = current_level
+                    last_level_processed = True
                     menu_temp = copy.deepcopy(menu)
                     menu = collections.defaultdict(dict)
                 current_level = menu_item.level
-                if previous_level == -1:
+                if not last_level_processed:
                     if 'children' not in menu[menu_item.parent_id].keys():
                         menu[menu_item.parent_id]['children'] = []
-                    child = {"value": menu_item, 'children':[]}
+                    child = {"value": menu_item, 'children': []}
                     menu[menu_item.parent_id]['children'].append(child)
                 else:
                     index = menu_item.parent_id
-                    # if menu_item.level == 1:
-                    #    index = 0
                     menu_temp[menu_item.id]['value'] = menu_item
                     if 'children' not in menu_temp[menu_item.id].keys():
                         menu_temp[menu_item.id]['children'] = []
@@ -72,9 +70,8 @@ def show_menu(context, menu_name, menu_type=None):
         if settings.DEBUG:
             raise e
         else:
-            return []
+            return context
 
-    # context['menu'] = menu[0]['children']
     context['menu'] = menu[menu_object.root_item_id]['children']
     if menu_type:
         context['menu_type'] = menu_type
