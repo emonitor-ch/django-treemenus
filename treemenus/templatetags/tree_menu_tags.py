@@ -1,6 +1,5 @@
 import sys
 import collections
-import copy
 
 import django
 from django import template
@@ -15,6 +14,7 @@ if PY3:
 
 from treemenus.models import Menu, MenuItem
 from treemenus.config import APP_LABEL
+from treemenus.utils import get_menu_dict
 
 
 register = template.Library()
@@ -30,53 +30,40 @@ def get_treemenus_static_prefix():
         return admin_media_prefix() + 'img/admin/'
 
 
+@register.simple_tag
+def get_menu_variable(menu_name):
+    menu = collections.defaultdict(dict)
+    try:
+        menu = get_menu_dict(menu_name)
+    except Menu.DoesNotExist as e:
+        if settings.DEBUG:
+            raise e
+        else:
+            return menu
+    return menu
+    
+    
 def show_menu(context, menu_name, menu_type=None):
     try:
-        menu_object = Menu.objects.get(name=menu_name)
-        # Fetch menu in single query
-        menu_items = MenuItem.objects.filter(menu_id=menu_object.id)\
-            .order_by('-level', 'parent_id', 'rank')\
-            .select_related('extension')
-
-        # Flag which determines that last level has been processed
-        last_level_processed = False
-        current_level = -1
-        menu = collections.defaultdict(dict)
-        menu_temp = collections.defaultdict(dict)
-
-        # The whole Menu is created as dictionary in this loop
-        for menu_item in menu_items:
-            if menu_item.level != 0:
-                if current_level != -1 and current_level != menu_item.level and menu_item.level != '0':
-                    last_level_processed = True
-                    menu_temp = copy.deepcopy(menu)
-                    menu = collections.defaultdict(dict)
-                current_level = menu_item.level
-                if not last_level_processed:
-                    if 'children' not in menu[menu_item.parent_id].keys():
-                        menu[menu_item.parent_id]['children'] = []
-                    child = {"value": menu_item, 'children': []}
-                    menu[menu_item.parent_id]['children'].append(child)
-                else:
-                    index = menu_item.parent_id
-                    menu_temp[menu_item.id]['value'] = menu_item
-                    if 'children' not in menu_temp[menu_item.id].keys():
-                        menu_temp[menu_item.id]['children'] = []
-                    if 'children' not in menu[index].keys():
-                        menu[index]['children'] = []
-                    menu[index]['children'].append(copy.deepcopy(menu_temp[menu_item.id]))
-
+        menu = get_menu_dict(menu_name)
     except Menu.DoesNotExist as e:
         if settings.DEBUG:
             raise e
         else:
             return context
-
-    context['menu'] = menu[menu_object.root_item_id]['children']
+    context['menu'] = menu
     if menu_type:
         context['menu_type'] = menu_type
     return context
 register.inclusion_tag('%s/menu.html' % APP_LABEL, takes_context=True)(show_menu)
+
+
+def show_menu_variable(context, menu_variable, menu_type=None):
+    context['menu'] = menu_variable
+    if menu_type:
+        context['menu_type'] = menu_type
+    return context
+register.inclusion_tag('%s/menu.html' % APP_LABEL, takes_context=True)(show_menu_variable)
 
 
 def show_menu_item(context, menu_item):
