@@ -1,18 +1,19 @@
 from itertools import chain
 
 from django.db import models
+from django.db.models import CASCADE
 from django.utils.translation import ugettext, ugettext_lazy as _
 
 
 class MenuItem(models.Model):
-    parent = models.ForeignKey('self', verbose_name=_('parent'), null=True, blank=True)
+    parent = models.ForeignKey('self', verbose_name=_('parent'), null=True, blank=True, on_delete=CASCADE)
     caption = models.CharField(_('caption'), max_length=100)
     url = models.CharField(_('URL'), max_length=200, blank=True)
     named_url = models.CharField(_('named URL'), max_length=200, blank=True)
     level = models.IntegerField(_('level'), default=0, editable=False)
     rank = models.IntegerField(_('rank'), default=0, editable=False)
     menu = models.ForeignKey('Menu', related_name='contained_items',
-                             verbose_name=_('menu'), null=True, blank=True, editable=False)
+                             verbose_name=_('menu'), null=True, blank=True, editable=False, on_delete=CASCADE)
 
     def __str__(self):
         return self.caption
@@ -108,7 +109,8 @@ class MenuManager(models.Manager):
 
 class Menu(models.Model):
     name = models.CharField(_('name'), max_length=50)
-    root_item = models.ForeignKey(MenuItem, related_name='is_root_item_of', verbose_name=_('root item'), null=True, blank=True, editable=False)
+    root_item = models.ForeignKey(MenuItem, related_name='is_root_item_of', verbose_name=_('root item'), null=True, 
+                                  blank=True, editable=False, on_delete=CASCADE)
 
     objects = MenuManager()
 
