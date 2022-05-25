@@ -20,55 +20,55 @@ msgstr ""
 #: admin_views.py:85
 #, python-format
 msgid "The menu item \"%s\" was added successfully."
-msgstr "L'élément de menu \"%s\" a été ajouté."
+msgstr "L'Ã©lÃ©ment de menu \"%s\" a Ã©tÃ© ajoutÃ©."
 
 #: admin_views.py:88
 #: admin_views.py:133
 msgid "You may edit it again below."
-msgstr "Vous pouvez l'éditer ci-dessous."
+msgstr "Vous pouvez l'Ã©diter ci-dessous."
 
 #: admin_views.py:91
 #: admin_views.py:136
 msgid "You may add another menu item below."
-msgstr "Vous pouvez ajouter un autre élément de menu ci-dessous."
+msgstr "Vous pouvez ajouter un autre Ã©lÃ©ment de menu ci-dessous."
 
 #: admin_views.py:106
 msgid "Add menu item"
-msgstr "Ajouter un élément de menu"
+msgstr "Ajouter un Ã©lÃ©ment de menu"
 
 #: admin_views.py:131
 #, python-format
 msgid "The menu item \"%s\" was changed successfully."
-msgstr "L'élément de menu \"%s\" a été modifié."
+msgstr "L'Ã©lÃ©ment de menu \"%s\" a Ã©tÃ© modifiÃ©."
 
 #: admin_views.py:150
 msgid "Change menu item"
-msgstr "Changer élément de menu"
+msgstr "Changer Ã©lÃ©ment de menu"
 
 #: admin_views.py:166
 #, python-format
 msgid "The %(name)s \"%(obj)s\" was deleted successfully."
-msgstr "Le %(name)s \"%(obj)s\" a été supprimé."
+msgstr "Le %(name)s \"%(obj)s\" a Ã©tÃ© supprimÃ©."
 
 #: admin_views.py:169
 msgid "Are you sure?"
-msgstr "Etes-vous sûr ?"
+msgstr "Etes-vous sÃ»r ?"
 
 #: admin_views.py:195
 #: admin_views.py:210
 #, python-format
 msgid "The menu item \"%s\" was moved successfully."
-msgstr "L'élément de menu \"%s\" a été déplacé."
+msgstr "L'Ã©lÃ©ment de menu \"%s\" a Ã©tÃ© dÃ©placÃ©."
 
 #: admin_views.py:197
 #, python-format
 msgid "The menu item \"%s\" is not allowed to move down."
-msgstr "L'élément de menu \"%s\" ne peut pas être déplacé vers le bas."
+msgstr "L'Ã©lÃ©ment de menu \"%s\" ne peut pas Ãªtre dÃ©placÃ© vers le bas."
 
 #: admin_views.py:212
 #, python-format
 msgid "The menu item \"%s\" is not allowed to move up."
-msgstr "L'élément de menu \"%s\" ne peut pas être déplacé vers le haut."
+msgstr "L'Ã©lÃ©ment de menu \"%s\" ne peut pas Ãªtre dÃ©placÃ© vers le haut."
 
 #: models.py:17
 msgid "Parent"
@@ -77,7 +77,7 @@ msgstr "Parent"
 #: models.py:18
 #: templates/admin/treemenus/edit_menu.html:39
 msgid "Caption"
-msgstr "Légende"
+msgstr "LÃ©gende"
 
 #: models.py:19
 msgid "URL"
@@ -130,11 +130,11 @@ msgstr "Accueil"
 #: templates/admin/treemenus/add_edit_item.html:16
 #: templates/admin/treemenus/delete_item_confirmation.html:11
 msgid "Items"
-msgstr "Eléments"
+msgstr "ElÃ©ments"
 
 #: templates/admin/treemenus/add_edit_item.html:22
 msgid "Add Item"
-msgstr "Ajouter Elément"
+msgstr "Ajouter ElÃ©ment"
 
 #: templates/admin/treemenus/add_edit_item.html:37
 msgid "Other attributes"
@@ -162,11 +162,11 @@ msgstr "Sauver"
 #: templates/admin/treemenus/delete_item_confirmation.html:17
 #, python-format
 msgid "Are you sure you want to delete the menu item \"%(menu_item)s\"?"
-msgstr "Etes-vous sûr de vouloir supprimer l'élément de menu \"%(menu_item)s\" ?"
+msgstr "Etes-vous sÃ»r de vouloir supprimer l'Ã©lÃ©ment de menu \"%(menu_item)s\" ?"
 
 #: templates/admin/treemenus/delete_item_confirmation.html:21
 msgid "Yes, I'm sure"
-msgstr "Oui, je suis sûr"
+msgstr "Oui, je suis sÃ»r"
 
 #: templates/admin/treemenus/edit_menu.html:18
 msgid "Change menu"
@@ -174,15 +174,15 @@ msgstr "Changer menu"
 
 #: templates/admin/treemenus/edit_menu.html:21
 msgid "Details"
-msgstr "Détails"
+msgstr "DÃ©tails"
 
 #: templates/admin/treemenus/edit_menu.html:29
 msgid "Menu Items"
-msgstr "Eléments de menu"
+msgstr "ElÃ©ments de menu"
 
 #: templates/admin/treemenus/edit_menu.html:32
 msgid "Add an item"
-msgstr "Ajouter un élément"
+msgstr "Ajouter un Ã©lÃ©ment"
 
 #: templates/admin/treemenus/edit_menu.html:40
 msgid "Url"
@@ -194,7 +194,7 @@ msgstr "Nom d'url"
 
 #: templates/admin/treemenus/edit_menu.html:42
 msgid "Move"
-msgstr "Déplacer"
+msgstr "DÃ©placer"
 
 #: templates/admin/treemenus/edit_menu.html:52
 msgid "[Root]"
