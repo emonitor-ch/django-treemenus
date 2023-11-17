@@ -7,11 +7,6 @@ from django.conf import settings
 from django.template.defaulttags import url
 from django.template import Node, TemplateSyntaxError
 
-
-PY3 = sys.version_info[0] == 3
-if PY3:
-    from django.utils import six
-
 from treemenus.models import Menu, MenuItem
 from treemenus.config import APP_LABEL
 from treemenus.utils import get_menu_dict
